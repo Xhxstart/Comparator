@@ -55,3 +55,98 @@ public class CisaIdSort implements Comparator {
 }
 重写Collections.sort（）方法
 Collections.sort( sorOrgtMap, new CisaIdSort() );
+
+/**
+ * 
+ */
+package com.test.invoke;
+
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+
+/**
+ * @author kigak-ka
+ *
+ */
+public class ReflectDemo {
+
+	/**
+	 * @param args
+	 * @throws IntrospectionException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 */
+	public static void main(String[] args) throws IntrospectionException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+			 {
+		person p = new person();
+		p.setId("0");
+		String[] names = new String[]{""};
+		p.setTestID(names);
+		PropertyDescriptor prop = new PropertyDescriptor("testID", person.class);
+ 
+		// 获取getter方法，反射获取id值
+		String[] str = (String[])prop.getReadMethod().invoke(p);
+ 
+		// 获取setter方法，反射赋值
+		//prop.getWriteMethod().invoke(p, "1");
+ 
+		System.out.println("获取ID值:" + str[0]);
+		//System.out.println("赋值ID:" + p.getId());
+	}
+
+
+}
+
+
+/**
+ * 
+ */
+package com.test.invoke;
+
+/**
+ * @author kigak-ka
+ *
+ */
+public class person {
+
+		private String tId;
+		
+		private String id;
+		
+		private String[] testID;
+	 
+		public String getId() {
+			return id;
+		}
+	 
+		public void setId(String id) {
+			this.id = id;
+		}
+	 
+		public String gettId() {
+			return tId;
+		}
+	 
+		public void settId(String tId) {
+			this.tId = tId;
+		}
+
+		/**
+		 * @return testID
+		 */
+		public String[] getTestID() {
+			return testID;
+		}
+
+		/**
+		 * @param testID セットする testID
+		 */
+		public void setTestID(String[] testID) {
+			this.testID = testID;
+		}
+
+}
+
+

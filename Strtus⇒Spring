@@ -1,0 +1,66 @@
+START********************************************
+クラス:A年齢：8
+END********************************************
+3.0
+クラス名:aAage:7
+クラス名:aAage:8
+クラス名:Cage:4
+クラス名:Cage:8
+クラス名:Bbage:8
+クラス名:Bbage:12
+クラス名:Bage:8
+クラス名:Bage:12
+クラス名:Aage:7
+クラス名:Aage:8
+
+
+
+studentlist.stream().sorted(Comparator.comparingInt(Student::getAge).thenComparing(
+			Comparator.comparing(Student::getClassname).reversed())
+START********************************************
+クラス:A年齢：8
+END********************************************
+3.0
+クラス名:Cage:4
+クラス名:aAage:7
+クラス名:Aage:7
+クラス名:aAage:8
+クラス名:Cage:8
+クラス名:Bbage:8
+クラス名:Bage:8
+クラス名:Aage:8
+クラス名:Bbage:12
+クラス名:Bage:12
+
+thenComparing以前面的?第一排序主，后面的第二排序
+
+studentlist.stream().sorted(Comparator.comparing(Student::getClassname).reversed().thenComparing(
+						Comparator.comparingInt(Student::getAge))
+
+START********************************************
+クラス:A年齢：8
+END********************************************
+3.0
+クラス名:aAage:7
+クラス名:aAage:8
+クラス名:Cage:4
+クラス名:Cage:8
+クラス名:Bbage:8
+クラス名:Bbage:12
+クラス名:Bage:8
+クラス名:Bage:12
+クラス名:Aage:7
+クラス名:Aage:8
+
+Bug #10230
+リクエストパラメータが1つ且つ、String配列のFormプロパティへ空文字パラメータをセットするパターンのときに Strtus, Spring 間での差異が発生
+
+Strtus > String1 要素[""]
+Spring > String0 要素無し
+
+Bug #9537
+フレームワーク間の一時保存アップロードファイルの削除処理に差異があるため発生。
+Strtus:FormFile.destroyメソッドで明示的に削除処理を呼び出す必要がある
+Spring:リクエスト毎に一時保存アップロードファイルは自動削除される
+該当エラー箇所では、リクエストをまたいでアップロードファイルを保持する必要があるため、
+Spring側では削除されないようフラグを立てる必要があるが、その実装漏れによるもの
